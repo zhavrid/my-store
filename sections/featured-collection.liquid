@@ -30,64 +30,6 @@
 
 {%- style -%}
 
-    .gradient{
-        background-color: #edece8;
-    }
-    .custom-section {
-        padding: 120px 20px;
-        margin: 0 auto;
-        display: flex;
-        gap: 120px;
-        justify-content: center;
-        align-items: center;
-    }
-    .custom-section img {
-        max-width: 700px;
-        width: 100%;
-    }
-    .text-content{
-        max-width: 700px;
-        width: 100%;
-    }
-    .text-content h2{
-        font-family: "Karla", sans-serif;
-        margin: 0;
-        line-height: 40px;
-        font-size: 40px;
-        font-weight: 500;
-        text-transform: uppercase;
-        padding-bottom: 24px;
-    }
-    .text-content p{
-        font-family: "Karla", sans-serif;
-        margin: 0;
-        font-size: 20px;
-        line-height: 28px;
-        color: #000;
-        padding-bottom: 40px;
-    }
-    .butt_download{
-        padding: 17px 32px;
-        border: 1px solid #000;
-        border-radius: 3px;
-        color: #000;
-        text-decoration: none;
-        text-transform: uppercase;
-        font-size: 14px;
-        line-height: 16px;
-        font-weight: 700;
-    }
-    .butt_download svg {
-        margin-right: 8px;
-        position: relative;
-        top: 3px;
-    }
-    .custom-section .image-left {
-        order: -1;
-    }
-    .custom-section .image-right {
-        order: 1;
-    }
 
 {%- endstyle -%}
 
@@ -111,30 +53,48 @@
     endif
 -%}
 
-<div class="custom-section {% if section.settings.image_position == 'left' %}image-left{% else %}image-right{% endif %}">
-    {% if section.settings.image %}
-        <img src="{{ section.settings.image | img_url: 'medium' }}" alt="Image" />
-    {% endif %}
-    <div class="text-content">
-        {% if section.settings.title %}
-            <h2>{{ section.settings.title }}</h2>
+<div class="sections_bimotal">
+    {% for block in section.blocks %}
+        {% if block.settings.title and block.settings.paragraph and block.settings.button_link or block.settings.button__yellow_link %}
+        <div class="custom-section {% if block.settings.image_position == 'left' %}image-left{% else %}image-right{% endif %} {% if block.settings.image == blank %}no-image{% endif %}">
+            {% if block.settings.image %}
+                <img src="{{ block.settings.image | img_url: 'large' }}" alt="Image" />
+            {% endif %}
+            <div class="text-content">
+                {% if block.settings.title %}
+                    <h2>{{ block.settings.title }}</h2>
+                {% endif %}
+                {% if block.settings.paragraph %}
+                    <p>{{ block.settings.paragraph }}</p>
+                {% endif %}
+                {% if block.settings.button_link %}
+                    <a href="{{ block.settings.button_link }}" class="butt_download">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M2.20312 10H17.2031C17.402 10 17.5928 9.92098 17.7335 9.78033C17.8741 9.63968 17.9531 9.44891 17.9531 9.25V7C17.9532 6.90148 17.9339 6.80391 17.8962 6.71286C17.8586 6.62182 17.8034 6.53908 17.7337 6.46938L12.4838 1.21938C12.414 1.14975 12.3313 1.09454 12.2403 1.0569C12.1492 1.01926 12.0516 0.999923 11.9531 1H2.95312C2.5553 1 2.17377 1.15804 1.89246 1.43934C1.61116 1.72064 1.45313 2.10218 1.45312 2.5V9.25C1.45312 9.44891 1.53214 9.63968 1.6728 9.78033C1.81345 9.92098 2.00421 10 2.20312 10ZM11.9531 2.875L16.0781 7H11.9531V2.875ZM18.7031 13C18.7031 13.1989 18.6241 13.3897 18.4835 13.5303C18.3428 13.671 18.152 13.75 17.9531 13.75H15.7031V15.25H17.2031C17.402 15.25 17.5928 15.329 17.7335 15.4697C17.8741 15.6103 17.9531 15.8011 17.9531 16C17.9531 16.1989 17.8741 16.3897 17.7335 16.5303C17.5928 16.671 17.402 16.75 17.2031 16.75H15.7031V18.25C15.7031 18.4489 15.6241 18.6397 15.4835 18.7803C15.3428 18.921 15.152 19 14.9531 19C14.7542 19 14.5634 18.921 14.4228 18.7803C14.2821 18.6397 14.2031 18.4489 14.2031 18.25V13C14.2031 12.8011 14.2821 12.6103 14.4228 12.4697C14.5634 12.329 14.7542 12.25 14.9531 12.25H17.9531C18.152 12.25 18.3428 12.329 18.4835 12.4697C18.6241 12.6103 18.7031 12.8011 18.7031 13ZM3.70312 12.25H2.20312C2.00421 12.25 1.81345 12.329 1.6728 12.4697C1.53214 12.6103 1.45312 12.8011 1.45312 13V18.25C1.45312 18.4489 1.53214 18.6397 1.6728 18.7803C1.81345 18.921 2.00421 19 2.20312 19C2.40204 19 2.5928 18.921 2.73345 18.7803C2.87411 18.6397 2.95312 18.4489 2.95312 18.25V17.5H3.70312C4.39932 17.5 5.067 17.2234 5.55928 16.7312C6.05156 16.2389 6.32812 15.5712 6.32812 14.875C6.32812 14.1788 6.05156 13.5111 5.55928 13.0188C5.067 12.5266 4.39932 12.25 3.70312 12.25ZM3.70312 16H2.95312V13.75H3.70312C4.00149 13.75 4.28764 13.8685 4.49862 14.0795C4.7096 14.2905 4.82812 14.5766 4.82812 14.875C4.82812 15.1734 4.7096 15.4595 4.49862 15.6705C4.28764 15.8815 4.00149 16 3.70312 16ZM9.70312 12.25H8.20312C8.00421 12.25 7.81345 12.329 7.6728 12.4697C7.53214 12.6103 7.45312 12.8011 7.45312 13V18.25C7.45312 18.4489 7.53214 18.6397 7.6728 18.7803C7.81345 18.921 8.00421 19 8.20312 19H9.70312C10.5982 19 11.4567 18.6444 12.0896 18.0115C12.7225 17.3785 13.0781 16.5201 13.0781 15.625C13.0781 14.7299 12.7225 13.8715 12.0896 13.2385C11.4567 12.6056 10.5982 12.25 9.70312 12.25ZM9.70312 17.5H8.95312V13.75H9.70312C10.2004 13.75 10.6773 13.9475 11.0289 14.2992C11.3806 14.6508 11.5781 15.1277 11.5781 15.625C11.5781 16.1223 11.3806 16.5992 11.0289 16.9508C10.6773 17.3025 10.2004 17.5 9.70312 17.5Z" fill="black"/>
+                        </svg>
+                        {{ block.settings.button_text }}
+                    </a>
+                {% endif %}
+                {% if block.settings.button__yellow_link %}
+                    <a href="{{ block.settings.button__yellow_link }}" class="butt_yellow">
+                        {{ block.settings.button__yellow_text }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
         {% endif %}
-        {% if section.settings.text %}
-            <p>{{ section.settings.text }}</p>
-        {% endif %}
-        {% if section.settings.button_link %}
-            <a href="{{ section.settings.button_link }}" class="butt_download"> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M2.20312 10H17.2031C17.402 10 17.5928 9.92098 17.7335 9.78033C17.8741 9.63968 17.9531 9.44891 17.9531 9.25V7C17.9532 6.90148 17.9339 6.80391 17.8962 6.71286C17.8586 6.62182 17.8034 6.53908 17.7337 6.46938L12.4838 1.21938C12.414 1.14975 12.3313 1.09454 12.2403 1.0569C12.1492 1.01926 12.0516 0.999923 11.9531 1H2.95312C2.5553 1 2.17377 1.15804 1.89246 1.43934C1.61116 1.72064 1.45313 2.10218 1.45312 2.5V9.25C1.45312 9.44891 1.53214 9.63968 1.6728 9.78033C1.81345 9.92098 2.00421 10 2.20312 10ZM11.9531 2.875L16.0781 7H11.9531V2.875ZM18.7031 13C18.7031 13.1989 18.6241 13.3897 18.4835 13.5303C18.3428 13.671 18.152 13.75 17.9531 13.75H15.7031V15.25H17.2031C17.402 15.25 17.5928 15.329 17.7335 15.4697C17.8741 15.6103 17.9531 15.8011 17.9531 16C17.9531 16.1989 17.8741 16.3897 17.7335 16.5303C17.5928 16.671 17.402 16.75 17.2031 16.75H15.7031V18.25C15.7031 18.4489 15.6241 18.6397 15.4835 18.7803C15.3428 18.921 15.152 19 14.9531 19C14.7542 19 14.5634 18.921 14.4228 18.7803C14.2821 18.6397 14.2031 18.4489 14.2031 18.25V13C14.2031 12.8011 14.2821 12.6103 14.4228 12.4697C14.5634 12.329 14.7542 12.25 14.9531 12.25H17.9531C18.152 12.25 18.3428 12.329 18.4835 12.4697C18.6241 12.6103 18.7031 12.8011 18.7031 13ZM3.70312 12.25H2.20312C2.00421 12.25 1.81345 12.329 1.6728 12.4697C1.53214 12.6103 1.45312 12.8011 1.45312 13V18.25C1.45312 18.4489 1.53214 18.6397 1.6728 18.7803C1.81345 18.921 2.00421 19 2.20312 19C2.40204 19 2.5928 18.921 2.73345 18.7803C2.87411 18.6397 2.95312 18.4489 2.95312 18.25V17.5H3.70312C4.39932 17.5 5.067 17.2234 5.55928 16.7312C6.05156 16.2389 6.32812 15.5712 6.32812 14.875C6.32812 14.1788 6.05156 13.5111 5.55928 13.0188C5.067 12.5266 4.39932 12.25 3.70312 12.25ZM3.70312 16H2.95312V13.75H3.70312C4.00149 13.75 4.28764 13.8685 4.49862 14.0795C4.7096 14.2905 4.82812 14.5766 4.82812 14.875C4.82812 15.1734 4.7096 15.4595 4.49862 15.6705C4.28764 15.8815 4.00149 16 3.70312 16ZM9.70312 12.25H8.20312C8.00421 12.25 7.81345 12.329 7.6728 12.4697C7.53214 12.6103 7.45312 12.8011 7.45312 13V18.25C7.45312 18.4489 7.53214 18.6397 7.6728 18.7803C7.81345 18.921 8.00421 19 8.20312 19H9.70312C10.5982 19 11.4567 18.6444 12.0896 18.0115C12.7225 17.3785 13.0781 16.5201 13.0781 15.625C13.0781 14.7299 12.7225 13.8715 12.0896 13.2385C11.4567 12.6056 10.5982 12.25 9.70312 12.25ZM9.70312 17.5H8.95312V13.75H9.70312C10.2004 13.75 10.6773 13.9475 11.0289 14.2992C11.3806 14.6508 11.5781 15.1277 11.5781 15.625C11.5781 16.1223 11.3806 16.5992 11.0289 16.9508C10.6773 17.3025 10.2004 17.5 9.70312 17.5Z" fill="black"/>
-                </svg>{{ section.settings.button_text }}
-            </a>
-        {% endif %}
-    </div>
+    {% endfor %}
 </div>
 
 
 {% schema %}
+{
+    "name": "Sections Bimotal",
+    "settings": [],
+    "blocks": [
     {
-        "name": "Custom Section",
+        "type": "custom_block",
+        "name": "Custom Block",
         "settings": [
         {
             "type": "text",
@@ -143,10 +103,30 @@
             "default": "Title"
         },
         {
-            "type": "textarea",
-            "label": "Text",
-            "id": "text",
-            "default": "Some text"
+            "type": "richtext",
+            "id": "paragraph",
+            "label": "Paragraph"
+        },
+        {
+            "type": "image_picker",
+            "label": "Image",
+            "id": "image"
+        },
+        {
+            "type": "radio",
+            "label": "Image Position",
+            "id": "image_position",
+            "options": [
+                {
+                    "value": "left",
+                    "label": "Left"
+                },
+                {
+                    "value": "right",
+                    "label": "Right"
+                }
+            ],
+            "default": "left"
         },
         {
             "type": "url",
@@ -157,24 +137,26 @@
             "type": "text",
             "label": "Button Text",
             "id": "button_text",
-            "default": "Click Me"
+            "default": "Download"
         },
         {
-            "type": "image_picker",
-            "label": "Image",
-            "id": "image"
+            "type": "url",
+            "label": "Button Link",
+            "id": "button__yellow_link"
         },
-            {
-                "type": "radio",
-                "label": "Image Position",
-                "id": "image_position",
-                "options": [
-                    { "value": "left", "label": "Left" },
-                    { "value": "right", "label": "Right" }
-                ],
-                "default": "left"
-            }
-        ]
-    }
+        {
+            "type": "text",
+            "label": "Button Text",
+            "id": "button__yellow_text",
+            "default": "send request"
+        }
+    ]}
+],
+    "presets": [
+        {
+            "name": "Sections Bimotal",
+            "category": "Custom"
+        }
+    ]
+}
 {% endschema %}
-
